@@ -41,6 +41,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Conexao.cs" />
     <Compile Include="GrupoUsuarioDal.cs" />
     <Compile Include="PermissaoDal.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
