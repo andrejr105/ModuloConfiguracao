@@ -35,9 +35,35 @@ namespace DAL
         }
         public List<GrupoUsuario> BuscarTodos()
         {
+            List<GrupoUsuario> grupos = new List<GrupoUsuario>();
+            SqlConnection cn = new SqlConnection(Conexao.StringDeConexao);
+            try
+            {
+                GrupoUsuario grupo = new GrupoUsuario();
+                SqlCommand cmd = new SqlCommand();
+                cmd.Connection = cn;
+                cmd.CommandText = "Select Id,Descricao from Permissao";
+                cmd.CommandType = System.Data.CommandType.Text;
+                cn.Open();
+                using (SqlDataReader rd = cmd.ExecuteReader())
+                {
+                    while (rd.Read())
+                    {
+                        grupo = new GrupoUsuario();
+                        grupo.Id = Convert.ToInt32(rd["Id"]);
+                        grupo.NomeGrupo = rd["NomeGrupo"].ToString();
+                        grupos.Add(grupo);
+                    }
 
-            throw new NotImplementedException();
+                }
+                return grupos;
+            }
+            catch
+            {
+                throw new Exception();
+            }
         }
+        
         public List<GrupoUsuario> BuscarPorNomeGrupo(string _nomeGrupo)
         {
 

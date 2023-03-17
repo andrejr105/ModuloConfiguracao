@@ -9,9 +9,9 @@ using System.Threading.Tasks;
 
 namespace DAL
 {
-    internal class UsuarioDal
+    public class UsuarioDal
     {
-        public void Iserir(Usuario _usuario)
+        public void Inserir(Usuario _usuario)
         {
             SqlConnection cn = new SqlConnection(Conexao.StringDeConexao);
             SqlCommand cmd = cn.CreateCommand();
@@ -39,7 +39,7 @@ namespace DAL
                 cn.Close();
             }
         }
-        public List<Usuario> BuscarPorTodos(int _id)
+        public List<Usuario> BuscarPorTodos()
         {
             List<Usuario> usuarios = new List<Usuario>();
             SqlConnection cn = new SqlConnection(Conexao.StringDeConexao);
@@ -48,7 +48,7 @@ namespace DAL
                 Usuario usuario = new Usuario();
                 SqlCommand cmd = new SqlCommand();
                 cmd.Connection = cn;
-                cmd.CommandText = "Select Id,Nome,NomeUsuario,Email,CPF,Ativo,Senha from Usuario where Id=@Id";
+                cmd.CommandText = "Select Id,Nome,NomeUsuario,Email,CPF,Ativo from Usuario";
                 cmd.CommandType = System.Data.CommandType.Text;
                 cn.Open();
                 using (SqlDataReader rd = cmd.ExecuteReader())
@@ -62,7 +62,6 @@ namespace DAL
                         usuario.Email = rd["Email"].ToString();
                         usuario.CPF = rd["CPF"].ToString();
                         usuario.Ativo = Convert.ToBoolean(rd["Ativo"]);
-                        usuario.Senha = rd["Senha"].ToString();
                         usuarios.Add(usuario);
                     }
 
@@ -72,6 +71,10 @@ namespace DAL
             catch
             {
                 throw new Exception();
+            }
+            finally
+            {
+                cn.Close();
             }
         }
         public List<Usuario> BuscarPorNomeUsuario(string _nomeUsuario)
@@ -142,7 +145,77 @@ namespace DAL
             {
                 throw new Exception("Erro");
             }
-    }
+        }
+        public Usuario BuscarPorCpf(string _CPF)
+        {
+            SqlConnection cn = new SqlConnection(Conexao.StringDeConexao);
+            SqlCommand cmd = cn.CreateCommand();
+            try
+            {
+                Usuario usuario = new Usuario();
+                cmd.Connection = cn;
+                cmd.CommandText = "Select Id,Nome,NomeUsuario,Email,CPF,Ativo,Senha from Usuario where CPF = @CPF";
+                cmd.CommandType = System.Data.CommandType.Text;
+
+                cmd.Parameters.AddWithValue("@CPF", _CPF);
+                cn.Open();
+                using (SqlDataReader rd = cmd.ExecuteReader())
+                {
+                    while (rd.Read())
+                    {
+                        usuario = new Usuario();
+                        usuario.Id = Convert.ToInt32(rd["Id"]);
+                        usuario.Nome = rd["Nome"].ToString();
+                        usuario.NomeUsuario = rd["NomeUsuario"].ToString();
+                        usuario.Email = rd["Email"].ToString();
+                        usuario.CPF = rd["CPF"].ToString();
+                        usuario.Ativo = Convert.ToBoolean(rd["Ativo"]);
+                        usuario.Senha = rd["Senha"].ToString();
+                    }
+
+                }
+                return usuario;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Erro");
+            }
+        }
+        public Usuario BuscarPorNome(string _nome)
+        {
+            SqlConnection cn = new SqlConnection(Conexao.StringDeConexao);
+            SqlCommand cmd = cn.CreateCommand();
+            try
+            {
+                Usuario usuario = new Usuario();
+                cmd.Connection = cn;
+                cmd.CommandText = "Select Id,Nome,NomeUsuario,Email,CPF,Ativo,Senha from Usuario where Nome = @Nome";
+                cmd.CommandType = System.Data.CommandType.Text;
+
+                cmd.Parameters.AddWithValue("@Nome", _nome);
+                cn.Open();
+                using (SqlDataReader rd = cmd.ExecuteReader())
+                {
+                    while (rd.Read())
+                    {
+                        usuario = new Usuario();
+                        usuario.Id = Convert.ToInt32(rd["Id"]);
+                        usuario.Nome = rd["Nome"].ToString();
+                        usuario.NomeUsuario = rd["NomeUsuario"].ToString();
+                        usuario.Email = rd["Email"].ToString();
+                        usuario.CPF = rd["CPF"].ToString();
+                        usuario.Ativo = Convert.ToBoolean(rd["Ativo"]);
+                        usuario.Senha = rd["Senha"].ToString();
+                    }
+
+                }
+                return usuario;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Erro");
+            }
+        }
 
         public void Alterar(Usuario _usuario)
         {
@@ -150,7 +223,7 @@ namespace DAL
             SqlCommand cmd = cn.CreateCommand(); 
             try
             { 
-                cmd.CommandText = "UPDATE Candidato set Nome=@Nome,NomeUsuario=@NomeUsuario,Email=@Email,CPF=@CPF,Ativo=@Ativo,Senha=@Senha where ID_Candidato=@ID_Candidato";
+                cmd.CommandText = "UPDATE Candidato set Nome=@Nome,NomeUsuario=@NomeUsuario,Email=@Email,CPF=@CPF,Ativo=@Ativo,Senha=@Senha where Id=@Id";
                 cmd.CommandType = System.Data.CommandType.Text;
                 cmd.Parameters.AddWithValue("@Id", _usuario.Id);
                 cmd.Parameters.AddWithValue("@Nome", _usuario.Nome);
