@@ -19,7 +19,7 @@ namespace WindowsFormsAppPrincipal
 
         private void FormBuscarUsuario_Load(object sender, EventArgs e)
         {
-            usuarioBindingSource.DataSource = new BLL.UsuarioBll().BuscarPorTodos();
+
         }
 
         private void ButonExcluirUsuario_Click(object sender, EventArgs e)
@@ -38,6 +38,25 @@ namespace WindowsFormsAppPrincipal
                 usuarioBindingSource.RemoveCurrent();
 
             MessageBox.Show("Registro excluido com sucesso!");
+        }
+
+        private void ButonAdicionarUsuario_Click(object sender, EventArgs e)
+        {
+            using(FromCadastroUsuario frm = new FromCadastroUsuario())
+            {
+                frm.ShowDialog();
+            }
+            ButaoBuscar_Click(null, null);
+        }
+
+        private void ButonAlterar_Click(object sender, EventArgs e)
+        {
+            int id = ((Usuario)usuarioBindingSource.Current).Id;
+            using(FromCadastroUsuario frm = new FromCadastroUsuario(id))
+            {
+                frm.ShowDialog();
+            }
+            ButaoBuscar_Click(null, null);
         }
     }
 }

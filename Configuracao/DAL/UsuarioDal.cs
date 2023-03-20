@@ -14,9 +14,9 @@ namespace DAL
         public void Inserir(Usuario _usuario)
         {
             SqlConnection cn = new SqlConnection(Conexao.StringDeConexao);
-            SqlCommand cmd = cn.CreateCommand();
             try
             {
+                SqlCommand cmd = cn.CreateCommand();
                 cmd.CommandText = @"insert into Usuario(Nome,NomeUsuario,Email,CPF,Ativo,Senha) 
                                     values (@Nome,@NomeUsuario,@Email,@CPF,@Ativo,@Senha)";
                 cmd.CommandType = System.Data.CommandType.Text;
@@ -223,7 +223,7 @@ namespace DAL
             SqlCommand cmd = cn.CreateCommand(); 
             try
             { 
-                cmd.CommandText = "UPDATE Candidato set Nome=@Nome,NomeUsuario=@NomeUsuario,Email=@Email,CPF=@CPF,Ativo=@Ativo,Senha=@Senha where Id=@Id";
+                cmd.CommandText = "UPDATE Usuario set Nome=@Nome,NomeUsuario=@NomeUsuario,Email=@Email,CPF=@CPF,Ativo=@Ativo,Senha=@Senha where Id=@Id";
                 cmd.CommandType = System.Data.CommandType.Text;
                 cmd.Parameters.AddWithValue("@Id", _usuario.Id);
                 cmd.Parameters.AddWithValue("@Nome", _usuario.Nome);

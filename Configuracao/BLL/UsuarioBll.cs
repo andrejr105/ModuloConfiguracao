@@ -9,7 +9,8 @@ namespace BLL
     {
         public void Inserir(Usuario _Usuario)
         {
-            new UsuarioDal().Inserir(_Usuario);
+            UsuarioDal _usuario = new UsuarioDal();
+            _usuario.Inserir(_Usuario);
         }
         public List<Usuario> BuscarPorTodos()
         {
