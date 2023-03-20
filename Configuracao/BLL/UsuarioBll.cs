@@ -1,5 +1,6 @@
 ﻿using DAL;
 using Models;
+using System;
 using System.Collections.Generic;
 using System.Runtime.Remoting.Messaging;
 
@@ -46,5 +47,6 @@ namespace BLL
             UsuarioDal _usuario = new UsuarioDal();
             _usuario.Excluir(_id);
         }
+
     }
 }

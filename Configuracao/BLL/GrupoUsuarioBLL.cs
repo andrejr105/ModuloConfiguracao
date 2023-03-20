@@ -12,7 +12,8 @@ namespace BLL
     {
         public void Inserir(GrupoUsuario _grupoUsuario)
         {
-            new GrupoUsuarioDal().Inserir(_grupoUsuario);
+            GrupoUsuarioDal grupoUsuarioDal = new GrupoUsuarioDal();
+            grupoUsuarioDal.Inserir(_grupoUsuario);
         }
         public List<GrupoUsuario> BuscarTodos()
         {
