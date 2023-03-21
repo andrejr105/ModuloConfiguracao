@@ -21,12 +21,57 @@ namespace WindowsFormsAppPrincipal
 
         private void Btn_Buscar_Click(object sender, EventArgs e)
         {
-            grupoUsuarioBindingSource.DataSource = new BLL.GrupoUsuarioBLL().BuscarTodos();
+            try
+            {
+                grupoUsuarioBindingSource.DataSource = new BLL.GrupoUsuarioBLL().BuscarTodos();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+
         }
 
         private void Btn_Adicionar_Click(object sender, EventArgs e)
         {
-            new GrupoUsuarioBLL().Inserir((GrupoUsuario)grupoUsuarioBindingSource.Current);
+            using (FormCadastroGrupoUsuario frm = new FormCadastroGrupoUsuario())
+            {
+                frm.ShowDialog();
+            }
+            Btn_Buscar_Click(null, null);
+        }
+
+        private void nomeGrupoTextBox_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void Btn_Alterar_Click(object sender, EventArgs e)
+        {
+            int id = ((GrupoUsuario)grupoUsuarioBindingSource.Current).Id;
+            using (FormCadastroGrupoUsuario frm = new FormCadastroGrupoUsuario(id))
+            {
+                frm.ShowDialog();
+            }
+            Btn_Buscar_Click(null, null);
+        }
+
+        private void Btn_Excluir_Click(object sender, EventArgs e)
+        {
+            if (grupoUsuarioBindingSource.Count <= 0)
+            {
+                MessageBox.Show("Escolha um registro para ser excluído.");
+                return;
+            }
+
+            if (MessageBox.Show("Deseja realmente excluir esse registro?", "Atenção", MessageBoxButtons.YesNo) == DialogResult.No)
+                return;
+
+            int id = ((GrupoUsuario)grupoUsuarioBindingSource.Current).Id;
+            new GrupoUsuarioBLL().Excluir(id);
+            grupoUsuarioBindingSource.RemoveCurrent();
+
+            MessageBox.Show("Registro excluido com sucesso!");
         }
     }
 }

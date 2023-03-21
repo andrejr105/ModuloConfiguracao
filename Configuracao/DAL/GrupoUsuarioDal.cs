@@ -13,20 +13,20 @@ namespace DAL
         public void Inserir(GrupoUsuario _grupoUsuario)
         {
             SqlConnection cn = new SqlConnection(Conexao.StringDeConexao);
-            SqlCommand cmd = cn.CreateCommand();
             try
             {
-                cmd.CommandText = @"insert into GrupoUsuario(NomeGrupo) 
-                                    values (@NomeGrupo)";
+                SqlCommand cmd = cn.CreateCommand();
+                cmd.CommandText = "insert into GrupoUsuario(NomeGrupo) values (@NomeGrupo)";
                 cmd.CommandType = System.Data.CommandType.Text;
-                cmd.Parameters.AddWithValue("@Nome", _grupoUsuario.NomeGrupo);
+                cmd.Parameters.AddWithValue("@NomeGrupo", _grupoUsuario.NomeGrupo);
+
                 cmd.Connection = cn;
                 cn.Open();
                 cmd.ExecuteNonQuery();
             }
             catch (Exception ex)
             {
-                throw new Exception("Ocorreu um erro ao tentar inserir um Grupo Usuário no banco de dados: ", ex);
+                throw new Exception("Ocorreu um erro ao tentar inserir um usuário no banco de dados: ", ex);
             }
             finally
             {
@@ -42,7 +42,7 @@ namespace DAL
                 GrupoUsuario grupo = new GrupoUsuario();
                 SqlCommand cmd = new SqlCommand();
                 cmd.Connection = cn;
-                cmd.CommandText = "Select Id,Descricao from Permissao";
+                cmd.CommandText = "Select Id,NomeGrupo from GrupoUsuario";
                 cmd.CommandType = System.Data.CommandType.Text;
                 cn.Open();
                 using (SqlDataReader rd = cmd.ExecuteReader())
@@ -58,9 +58,9 @@ namespace DAL
                 }
                 return grupos;
             }
-            catch
+            catch (Exception ex)    
             {
-                throw new Exception();
+                throw new Exception("Erro",ex);
             }
         }
         
@@ -104,7 +104,7 @@ namespace DAL
                 GrupoUsuario grupoUsuario = new GrupoUsuario();
                 SqlCommand cmd = new SqlCommand();
                 cmd.Connection = cn;
-                cmd.CommandText = "Select Id,Descricao from GrupoUsuario where Id=@Id";
+                cmd.CommandText = "Select Id,NomeGrupo from GrupoUsuario where Id=@Id";
                 cmd.CommandType = System.Data.CommandType.Text;
                 cmd.Parameters.AddWithValue("@Id", _id);
                 cn.Open();
@@ -121,9 +121,9 @@ namespace DAL
                 }
                 return grupoUsuarios;
             }
-            catch
+            catch (Exception ex)
             {
-                throw new Exception();
+                throw new Exception("eadasdsadas",ex);
             }
         }
         public void Alterar(GrupoUsuario _grupoUsuario)

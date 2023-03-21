@@ -14,7 +14,14 @@ namespace WindowsFormsAppPrincipal
 
         private void ButaoBuscar_Click(object sender, EventArgs e)
         {
-            usuarioBindingSource.DataSource = new BLL.UsuarioBll().BuscarPorTodos();
+            try
+            {
+                usuarioBindingSource.DataSource = new BLL.UsuarioBll().BuscarPorTodos();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
 
         private void FormBuscarUsuario_Load(object sender, EventArgs e)

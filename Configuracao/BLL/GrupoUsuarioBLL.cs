@@ -5,7 +5,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using DAL;
 namespace BLL
 {
     public class GrupoUsuarioBLL
@@ -17,6 +16,7 @@ namespace BLL
         }
         public List<GrupoUsuario> BuscarTodos()
         {
+
             return new GrupoUsuarioDal().BuscarTodos();
         }
         public List<GrupoUsuario> BuscarPorNomeGrupo(string _nomeGrupo)
