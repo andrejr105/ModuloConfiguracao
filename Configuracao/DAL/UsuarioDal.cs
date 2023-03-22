@@ -62,6 +62,7 @@ namespace DAL
                         usuario.Email = rd["Email"].ToString();
                         usuario.CPF = rd["CPF"].ToString();
                         usuario.Ativo = Convert.ToBoolean(rd["Ativo"]);
+                        usuario.GrupoUsuarios = new GrupoUsuarioDal().BuscarPorId(usuario.Id);
                         usuarios.Add(usuario);
                     }
 
@@ -115,11 +116,13 @@ namespace DAL
         public Usuario BuscarPorId(int _id)
         {
             SqlConnection cn = new SqlConnection(Conexao.StringDeConexao);
-            SqlCommand cmd = cn.CreateCommand();
+            List<Usuario> usuarios = new List<Usuario>();
+            
           try {   
+            SqlCommand cmd = cn.CreateCommand();
             Usuario usuario = new Usuario();
             cmd.Connection = cn;
-            cmd.CommandText = "Select Id,Nome,NomeUsuario,Email,CPF,Ativo,Senha from Usuario where Id = @Id";
+            cmd.CommandText = @"Select Id, Nome, NomeUsuario, Email, CPF, Ativo, Senha From Usuario where Id = @Id";
             cmd.CommandType = System.Data.CommandType.Text;
 
             cmd.Parameters.AddWithValue("@Id", _id);
@@ -136,7 +139,8 @@ namespace DAL
                     usuario.CPF = rd["CPF"].ToString();
                     usuario.Ativo = Convert.ToBoolean(rd["Ativo"]);
                     usuario.Senha = rd["Senha"].ToString();
-                }
+                    usuario.GrupoUsuarios = new GrupoUsuarioDal().BuscarPorId(usuario.Id);   
+                    }
 
             }
             return usuario;
@@ -144,6 +148,10 @@ namespace DAL
             catch (Exception ex)
             {
                 throw new Exception("Erro");
+            }
+            finally
+            {
+                cn.Open();
             }
         }
         public Usuario BuscarPorCpf(string _CPF)
@@ -296,6 +304,65 @@ namespace DAL
             finally
             {
                 cn.Close();
+            }
+        }
+
+        public void AdicionarGrupoUsuario(int _idUsuario, int _idGrupoUsuario)
+        {
+            SqlConnection cn = new SqlConnection(Conexao.StringDeConexao);
+            try
+            {
+                SqlCommand cmd = cn.CreateCommand();
+                cmd.Connection = cn;
+                cmd.CommandText = "insert into UsuarioGrupoUsuario(IdGrupoUsuario, IdUsuario) values (@IdGrupoUsuario,@IdUsuario)";
+                cmd.CommandType = System.Data.CommandType.Text;
+
+                cmd.Parameters.AddWithValue("@idUsuario", _idUsuario);
+                cmd.Parameters.AddWithValue("@idGrupoUsuario", _idGrupoUsuario);
+                cn.Open();
+
+            }
+            catch(Exception ex)
+            {
+                throw new Exception("Ocorreu um erro ao tentar vincular um grupo a um usuário");
+            }
+            finally
+            {
+
+            }
+        }
+
+        public bool UsuarioPertenceAoGrupo(int _idUsuario, int _idGrupoUsuario)
+        {
+            SqlConnection cn = new SqlConnection(Conexao.StringDeConexao);
+            try
+            {
+                SqlCommand cmd = cn.CreateCommand();
+
+                cmd.Connection = cn;
+                cmd.CommandText = @"Select 1 from UsuarioGrupoUsuario where Id = @Id and IdGrupoUsuario = @idGrupoUsuario";
+                cmd.CommandType = System.Data.CommandType.Text;
+
+                cmd.Parameters.AddWithValue("@Id", _idUsuario);
+                cmd.Parameters.AddWithValue("@idGrupoUsuario", _idGrupoUsuario);
+                cn.Open();
+                using (SqlDataReader rd = cmd.ExecuteReader())
+                {
+                    if (rd.Read())
+                    {
+                        return true;
+                    }
+
+                }
+                return false;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Ocorreu um erro ao tentar validar os dados do usuário",ex);
+            }
+            finally
+            {
+                cn.Open();
             }
         }
     }

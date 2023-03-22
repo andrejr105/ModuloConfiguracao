@@ -73,5 +73,21 @@ namespace WindowsFormsAppPrincipal
 
             MessageBox.Show("Registro excluido com sucesso!");
         }
+
+        private void grupoUsuarioDataGridView_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            int id = ((GrupoUsuario)grupoUsuarioBindingSource.Current).Id;
+            new GrupoUsuarioBLL().BuscarPorId(id);
+        }
+
+        private void permissoesDataGridView_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
+
+        private void textBox1_TextChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 }

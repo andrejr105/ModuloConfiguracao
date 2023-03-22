@@ -29,7 +29,7 @@ namespace WindowsFormsAppPrincipal
 
         private void FormPrincipal_Load(object sender, EventArgs e)
         {
-            Constantes.IdUsuarioLogado = 17;
+            Constantes.IdUsuarioLogado = 16;
         }
 
         private void gruposDeUsuáriosToolStripMenuItem_Click(object sender, EventArgs e)

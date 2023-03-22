@@ -65,5 +65,31 @@ namespace WindowsFormsAppPrincipal
             }
             ButaoBuscar_Click(null, null);
         }
+
+        private void usuarioDataGridView_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
+
+        private void ButonAdiconarGrupo_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                using(FormConsultaGrupoUsuario frm = new FormConsultaGrupoUsuario())
+                {
+                    frm.ShowDialog();
+
+                    if (frm.Id != 0)
+                    {
+                        int idUsuario = ((Usuario)usuarioBindingSource.Current).Id;
+                        new UsuarioBll().AdicionarGrupoUsuario(idUsuario,frm.Id);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
     }
 }

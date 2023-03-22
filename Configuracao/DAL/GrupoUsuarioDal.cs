@@ -42,7 +42,8 @@ namespace DAL
                 GrupoUsuario grupo = new GrupoUsuario();
                 SqlCommand cmd = new SqlCommand();
                 cmd.Connection = cn;
-                cmd.CommandText = "Select Id,NomeGrupo from GrupoUsuario";
+                cmd.CommandText = @"select GrupoUsuario.Id, GrupoUsuario.NomeGrupo from GrupoUsuario
+                inner join UsuarioGrupoUsuario on GrupoUsuario.Id = UsuarioGrupoUsuario.IdGrupoUsuario";
                 cmd.CommandType = System.Data.CommandType.Text;
                 cn.Open();
                 using (SqlDataReader rd = cmd.ExecuteReader())
@@ -75,7 +76,7 @@ namespace DAL
                 cmd.Connection = cn;
                 cmd.CommandText = "Select Id,NomeGrupo from GrupoUsuario where NomeGrupo=@NomeGrupo";
                 cmd.CommandType = System.Data.CommandType.Text;
-                cmd.Parameters.AddWithValue("@Descricao", "%" + _nomeGrupo + "%");
+                cmd.Parameters.AddWithValue("@NomeGrupo", "%" + _nomeGrupo + "%");
                 cn.Open();
                 using (SqlDataReader rd = cmd.ExecuteReader())
                 {
@@ -90,9 +91,9 @@ namespace DAL
                 }
                 return grupoUsuarios;
             }
-            catch
+            catch(Exception ex)
             {
-                throw new Exception();
+                throw new Exception("Erro ao tentar consultar o grupo usuário por nome",ex);
             }
         }
         public List<GrupoUsuario> BuscarPorId(int _id)
@@ -104,7 +105,9 @@ namespace DAL
                 GrupoUsuario grupoUsuario = new GrupoUsuario();
                 SqlCommand cmd = new SqlCommand();
                 cmd.Connection = cn;
-                cmd.CommandText = "Select Id,NomeGrupo from GrupoUsuario where Id=@Id";
+                cmd.CommandText = @"select GrupoUsuario.Id, GrupoUsuario.NomeGrupo from GrupoUsuario
+                                    inner join UsuarioGrupoUsuario on GrupoUsuario.Id = UsuarioGrupoUsuario.IdGrupoUsuario
+                                    where UsuarioGrupoUsuario.IdUsuario = @Id";
                 cmd.CommandType = System.Data.CommandType.Text;
                 cmd.Parameters.AddWithValue("@Id", _id);
                 cn.Open();
@@ -171,5 +174,6 @@ namespace DAL
                 cn.Close();
             }
         }
+
     }
 }
