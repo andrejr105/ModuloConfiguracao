@@ -11,7 +11,7 @@ namespace BLL
         public void Inserir(Usuario _Usuario, string _confirmacaoDeSenha)
         {
             ValidarPermissao(2);
-            ValidarDados();
+            ValidarDados(_Usuario, _confirmacaoDeSenha);
             UsuarioDal _usuario = new UsuarioDal();
             _usuario.Inserir(_Usuario);
         }
@@ -47,7 +47,7 @@ namespace BLL
         public void Alterar(Usuario _Usuario, string _confirmacaoDeSenha)
         {
             ValidarPermissao(3);
-            ValidarDados();
+            ValidarDados(_Usuario, _confirmacaoDeSenha);
             UsuarioDal _usuario = new UsuarioDal();
             _usuario.Alterar(_Usuario);
         }
