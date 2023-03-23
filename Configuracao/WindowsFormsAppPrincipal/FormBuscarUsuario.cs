@@ -83,6 +83,7 @@ namespace WindowsFormsAppPrincipal
                     {
                         int idUsuario = ((Usuario)usuarioBindingSource.Current).Id;
                         new UsuarioBll().AdicionarGrupoUsuario(idUsuario,frm.Id);
+                        frm.IdUser(idUsuario);
                     }
                 }
             }

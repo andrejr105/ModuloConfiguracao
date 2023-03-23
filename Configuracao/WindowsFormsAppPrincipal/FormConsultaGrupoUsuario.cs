@@ -14,10 +14,16 @@ namespace WindowsFormsAppPrincipal
 {
     public partial class FormConsultaGrupoUsuario : Form
     {
+        public int IdUsuario;
+        public void IdUser(int _id)
+        {
+            IdUsuario = _id;
+        }
         public int Id;
         public FormConsultaGrupoUsuario()
         {
             InitializeComponent();
+            grupoUsuarioBindingSource.DataSource = new GrupoUsuarioBLL().BuscarTodos();
         }
 
         private void FormConsultaGrupoUsuario_Load(object sender, EventArgs e)
@@ -54,6 +60,7 @@ namespace WindowsFormsAppPrincipal
                 if (grupoUsuarioBindingSource.Count > 0)
                 {
                     Id = ((GrupoUsuario)grupoUsuarioBindingSource.Current).Id;
+                    new UsuarioBll().AdicionarGrupoUsuario(IdUsuario,Id);
                     Close();
                 }
                 else
@@ -64,5 +71,11 @@ namespace WindowsFormsAppPrincipal
                 MessageBox.Show(ex.Message);
             }
         }
+
+        private void grupoUsuarioDataGridView_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
     }
+
 }

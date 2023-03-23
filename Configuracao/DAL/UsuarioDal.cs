@@ -151,7 +151,7 @@ namespace DAL
             }
             finally
             {
-                cn.Open();
+                cn.Close();
             }
         }
         public Usuario BuscarPorCpf(string _CPF)
@@ -328,7 +328,7 @@ namespace DAL
             }
             finally
             {
-
+                cn.Close();
             }
         }
 
@@ -346,6 +346,7 @@ namespace DAL
                 cmd.Parameters.AddWithValue("@Id", _idUsuario);
                 cmd.Parameters.AddWithValue("@idGrupoUsuario", _idGrupoUsuario);
                 cn.Open();
+                cmd.ExecuteNonQuery();
                 using (SqlDataReader rd = cmd.ExecuteReader())
                 {
                     if (rd.Read())
@@ -362,7 +363,7 @@ namespace DAL
             }
             finally
             {
-                cn.Open();
+                cn.Close();
             }
         }
     }

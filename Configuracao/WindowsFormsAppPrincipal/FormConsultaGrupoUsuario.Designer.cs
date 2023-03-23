@@ -30,8 +30,8 @@
         {
             this.components = new System.ComponentModel.Container();
             this.grupoUsuarioDataGridView = new System.Windows.Forms.DataGridView();
-            this.grupoUsuarioBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.grupoUsuarioBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.ButtonBuscar = new System.Windows.Forms.Button();
             this.ButtonCancelar = new System.Windows.Forms.Button();
             this.textBoxBuscar = new System.Windows.Forms.TextBox();
@@ -59,10 +59,7 @@
             this.grupoUsuarioDataGridView.RowTemplate.Height = 24;
             this.grupoUsuarioDataGridView.Size = new System.Drawing.Size(702, 286);
             this.grupoUsuarioDataGridView.TabIndex = 1;
-            // 
-            // grupoUsuarioBindingSource
-            // 
-            this.grupoUsuarioBindingSource.DataSource = typeof(Models.GrupoUsuario);
+            this.grupoUsuarioDataGridView.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.grupoUsuarioDataGridView_CellContentClick);
             // 
             // dataGridViewTextBoxColumn2
             // 
@@ -72,6 +69,10 @@
             this.dataGridViewTextBoxColumn2.MinimumWidth = 6;
             this.dataGridViewTextBoxColumn2.Name = "dataGridViewTextBoxColumn2";
             this.dataGridViewTextBoxColumn2.ReadOnly = true;
+            // 
+            // grupoUsuarioBindingSource
+            // 
+            this.grupoUsuarioBindingSource.DataSource = typeof(Models.GrupoUsuario);
             // 
             // ButtonBuscar
             // 
